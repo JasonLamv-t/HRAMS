@@ -8,6 +8,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { validationSchema } from './config/validateSchema';
 
 const envFilePath = [process.env.NODE_ENV, 'common'].map(
   (name) => `${process.cwd()}/src/config/env/${name}.env`,
@@ -19,6 +20,7 @@ const envFilePath = [process.env.NODE_ENV, 'common'].map(
       isGlobal: true,
       load: [appConfig, database],
       envFilePath,
+      validationSchema,
     }),
     UsersModule,
   ],

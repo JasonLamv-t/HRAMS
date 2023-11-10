@@ -11,7 +11,7 @@
     "start": "nest start -b swc",
     "start:dev": "NODE_ENV=development nest start --watch -b swc",
     "start:debug": "nest start --debug --watch -b swc",
-    "start:pre": "NODE_ENV=pre-prod dist/main",
+    "start:test": "NODE_ENV=test dist/main",
     "start:prod": "NODE_ENV=production node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "5.5.2",
+    "joi": "^17.11.0",
     "prisma": "^5.5.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
