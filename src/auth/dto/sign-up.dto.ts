@@ -1,5 +1,5 @@
-import { IsNotEmpty, Matches, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class SignUpDto {
   @ApiProperty({ description: '姓名', example: '刘强' })
