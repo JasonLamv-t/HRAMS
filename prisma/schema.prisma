@@ -21,7 +21,7 @@ model User {
   id                Int        @id @default(autoincrement())
   realName          String
   username          String     @unique
-  encryptedPassword String?
+  encryptedPassword String?    @db.Char(60)
   avatarUrl         String?
   status            UserStatus @default(UNVERIFIED)
 }

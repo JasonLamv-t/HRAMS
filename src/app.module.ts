@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import appConfig from './config/app.config';
-import database from './config/database';
+import { AuthModule } from './auth/auth.module';
+import configuration from './config/configuration';
+import { validationSchema } from './config/validateSchema';
 import { PrismaService } from './prisma/prisma.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
-import { validationSchema } from './config/validateSchema';
 
 const envFilePath = [process.env.NODE_ENV, 'common'].map(
   (name) => `${process.cwd()}/src/config/env/${name}.env`,
@@ -18,13 +18,14 @@ const envFilePath = [process.env.NODE_ENV, 'common'].map(
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, database],
+      load: [configuration],
       envFilePath,
       validationSchema,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService, PrismaService],
 })
-export class AppModule { }
+export class AppModule {}
