@@ -4,12 +4,12 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   async getOne(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return this.prismaService.user.findUnique({
       where: userWhereUniqueInput,
     });
   }
@@ -22,7 +22,7 @@ export class UsersService {
     orderBy?: Prisma.UserOrderByWithRelationInput;
   }): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.user.findMany({
+    return this.prismaService.user.findMany({
       skip,
       take,
       cursor,
@@ -32,7 +32,7 @@ export class UsersService {
   }
 
   async create(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({ data });
+    return this.prismaService.user.create({ data });
   }
 
   async update(params: {
@@ -40,6 +40,6 @@ export class UsersService {
     data: Prisma.UserUpdateInput;
   }): Promise<User> {
     const { where, data } = params;
-    return this.prisma.user.update({ data, where });
+    return this.prismaService.user.update({ data, where });
   }
 }
