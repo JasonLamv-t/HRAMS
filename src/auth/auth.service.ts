@@ -1,10 +1,13 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import {
   ConflictException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
+import { Cache } from 'cache-manager';
 import { omit } from 'lodash';
 import { UsersService } from '../users/users.service';
 import { SignInDto } from './dto/sign-in.dto';
@@ -17,6 +20,7 @@ export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private readonly cacheService: Cache,
   ) {}
 
   async signUp(sighUpDto: SignUpDto) {
@@ -48,6 +52,8 @@ export class AuthService {
 
     const payload = omit(existUser, ['encryptedPassword']);
     const access_token = await this.jwtService.signAsync(payload);
+
+    await this.cacheService.set(access_token, payload);
     return { access_token };
   }
 }

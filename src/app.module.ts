@@ -1,36 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
-import configuration from './config/configuration';
-import { validationSchema } from './config/validateSchema';
+import { CoreModule } from './core/core.module';
 import { RequestLoggerMiddleware } from './middleware/request-logger.middleware';
 import { PrismaService } from './prisma/prisma.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
-import { JwtModule } from '@nestjs/jwt';
-
-const envFilePath = [process.env.NODE_ENV, 'common'].map(
-  (name) => `${process.cwd()}/src/config/env/${name}.env`,
-);
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration],
-      envFilePath,
-      validationSchema,
-    }),
-    UsersModule,
-    AuthModule,
-    JwtModule,
-  ],
+  imports: [CoreModule, UsersModule, AuthModule],
   controllers: [AppController, UsersController],
   providers: [
     AppService,
